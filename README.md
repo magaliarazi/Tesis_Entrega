@@ -69,6 +69,20 @@ conda activate molparam
 
 ## Uso
 
+## ⚠️ Configuración previa
+
+Antes de ejecutar la aplicación, editá la siguiente línea en `app/app.py` y reemplazá la ruta por la ubicación del repositorio en tu sistema:
+
+```python
+PIPELINE_DIR = Path("/home/marazi/proyectoParam/scripts/prueba2/version")
+```
+
+Por ejemplo, si clonaste el repo en tu home:
+
+```python
+PIPELINE_DIR = Path("/home/tu_usuario/Tesis_Entrega/version")
+```
+
 ### Aplicación web (recomendado)
 
 ```bash
