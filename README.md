@@ -71,16 +71,18 @@ conda activate molparam
 
 ## ⚠️ Configuración previa
 
-Antes de ejecutar la aplicación, editá la siguiente línea en `app/app.py` y reemplazá la ruta por la ubicación del repositorio en tu sistema:
+## ⚠️ Configuración previa
 
+Antes de ejecutar la aplicación, editá la ruta en los siguientes archivos reemplazándola por la ubicación del repositorio en tu sistema:
+
+**`app/predictor.py` (línea 30):**
 ```python
 PIPELINE_DIR = Path("/home/marazi/proyectoParam/scripts/prueba2/version")
+# Reemplazar por:
+PIPELINE_DIR = Path("/home/tu_usuario/Tesis_Entrega/version")
 ```
 
-Por ejemplo, si clonaste el repo en tu home:
-
-```python
-PIPELINE_DIR = Path("/home/tu_usuario/Tesis_Entrega/version")
+**`version/validate_external.py` (línea 18):** actualizar el argumento `--pipeline_dir` con la ruta correspondiente.
 ```
 
 ### Aplicación web (recomendado)
