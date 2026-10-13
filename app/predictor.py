@@ -27,7 +27,7 @@ from sklearn.preprocessing import StandardScaler
 # IMPORTAR FUNCIONES DE EXTRACCIÓN DESDE EL PIPELINE
 # =============================================================================
  
-PIPELINE_DIR = Path("/home/marazi/proyectoParam/scripts/prueba2/version")
+PIPELINE_DIR = Path(__file__).parent.parent / "version"
 sys.path.append(str(PIPELINE_DIR))
  
 from extract_dataset_v3 import (

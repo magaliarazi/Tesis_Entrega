@@ -1,34 +1,28 @@
 # MolParam — Parametrización Molecular Data-Driven para GROMOS 54A7
 
-MolParam es una herramienta de aprendizaje automático para asignar automáticamente **atom types** y **cargas parciales** de moléculas orgánicas pequeñas bajo el campo de fuerza **GROMOS 54A7**, utilizado en simulaciones de dinámica molecular con [GROMACS](https://www.gromacs.org/).
+[![GROMACS](https://img.shields.io/badge/GROMACS-compatible-blue)](https://www.gromacs.org/)
+[![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/)
 
-Este trabajo es una contribución al ecosistema abierto de GROMACS, orientada a automatizar parcialmente la etapa de parametrización molecular —uno de los pasos más costosos y especializados en la preparación de simulaciones de dinámica molecular.
-
-> Proyecto Final de Carrera — Bioingeniería, ITBA (2026)  
-> Autoras: Magali Arazi · Sofía Goldszer  
-> Tutora: Dra. Florencia Martini · Co-tutor: Dr. Rodrigo Ramele
-
+**Autoras:** Magali Arazi · Sofía Goldszer  
+**Tutora:** Dra. Florencia Martini 
+**Co- Tutor** Dr. Rodrigo Ramele  
+**Institución:** ITBA 
 ---
 
-## ¿Qué es?
+## ¿Qué es MolParam?
 
-Dado un archivo `.mol2` con la estructura 3D de una molécula, el sistema predice átomo por átomo:
+MolParam es una herramienta de aprendizaje automático para asignar automáticamente **atom types** y **cargas parciales** de moléculas orgánicas pequeñas bajo el campo de fuerza **GROMOS 54A7**, utilizado en simulaciones de dinámica molecular con [GROMACS](https://www.gromacs.org/).
 
-- **Atomtype** (tipo de átomo GROMOS 54A7): clasificación multiclase con Random Forest
-- **Carga parcial** (en unidades de carga elemental, *e*): regresión con TabTransformer (esquema AA) y Random Forest (esquema UA)
-
-El pipeline opera en dos esquemas de representación atómica:
-- **AA (All-Atom)**: incluye todos los átomos, con hidrógenos explícitos
-- **UA (United-Atom)**: los hidrógenos no polares se fusionan con su carbono vecino
+La parametrización molecular es un paso necesario (y usualmente manual) antes de correr cualquier simulación MD. MolParam automatiza este proceso a partir de un archivo `.mol2`, generando como salida los parámetros compatibles con el ecosistema GROMACS/GROMOS.
 
 ### Modelos implementados
 
-| Tarea | Representación | Modelo |
-|-------|---------------|--------|
-| Clasificación de atom types | All-Atom (AA) | Random Forest |
-| Clasificación de atom types | United-Atom (UA) | Random Forest | 
+| Tarea | Representación | Modelo seleccionado |
+|-------|---------------|---------------------|
+| Clasificación de atom types | All-Atom (AA) | Random Forest (E3) | 
+| Clasificación de atom types | United-Atom (UA) | Random Forest (E3) |
 | Predicción de cargas parciales | All-Atom (AA) | TabTransformer | 
-| Predicción de cargas parciales | United-Atom (UA) | Random Forest | 
+| Predicción de cargas parciales | United-Atom (UA) | Random Forest (E3) |
 
 ---
 
@@ -40,61 +34,65 @@ Tesis_Entrega/
 ├── version/              # Scripts de entrenamiento y análisis
 ├── archivos/             # Archivos .mol2 e .itp del dataset de entrenamiento
 ├── validation_mols/      # Moléculas de validación externa
-└── environment.yml       # Entorno conda reproducible
+└── environment.yml       # Entorno conda (Linux)
 ```
 
 ---
-
 ## Instalación
 
-### Requisitos previos
-- [Anaconda](https://www.anaconda.com/) o [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
-- GROMACS instalado (para simulaciones MD posteriores)
+### Opción A: Solo correr la aplicación web
 
-### Pasos
+Requiere Python 3.10 y pip. Funciona en Windows, Linux y Mac.
 
 ```bash
 # 1. Clonar el repositorio
 git clone https://github.com/magaliarazi/Tesis_Entrega.git
 cd Tesis_Entrega
 
-# 2. Crear el entorno conda con todas las dependencias
+# 2. Instalar dependencias
+pip install flask rdkit scikit-learn pandas numpy torch
+```
+
+### Opción B: Reproducir el entrenamiento completo
+
+Requiere Linux (o WSL en Windows) y [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/magaliarazi/Tesis_Entrega.git
+cd Tesis_Entrega
+
+# 2. Aceptar los términos de servicio de conda
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
+# 3. Crear el entorno conda con todas las dependencias
 conda env create -f environment.yml
 
-# 3. Activar el entorno
+# 4. Activar el entorno
 conda activate molparam
 ```
+
+> **Nota:** El `environment.yml` fue generado en Linux. En Windows debe usarse [WSL](https://learn.microsoft.com/es-es/windows/wsl/install).
 
 ---
 
 ## Uso
 
-## ⚠️ Configuración previa
-
-## ⚠️ Configuración previa
-
-Antes de ejecutar la aplicación, editá la ruta en los siguientes archivos reemplazándola por la ubicación del repositorio en tu sistema:
-
-**`app/predictor.py` (línea 30):**
-```python
-PIPELINE_DIR = Path("/home/marazi/proyectoParam/scripts/prueba2/version")
-# Reemplazar por:
-PIPELINE_DIR = Path("/home/tu_usuario/Tesis_Entrega/version")
-```
-
-**`version/validate_external.py` (línea 18):** actualizar el argumento `--pipeline_dir` con la ruta correspondiente.
-```
-
 ### Aplicación web (recomendado)
+
+Con el entorno activado (conda activate molparam), desde la raíz del repositorio:
 
 ```bash
 cd app/
 python app.py
 ```
 
-Abre el navegador en `http://localhost:5000`. Cargá tu archivo `.mol2` y obtenés los atom types y cargas parciales predichos.
+Abrí el navegador en `http://localhost:5000`. Cargá tu archivo `.mol2` y obtenés los atom types y cargas parciales predichos.
 
 ### Scripts de entrenamiento
+
+Con el entorno activado (conda activate molparam), desde la raíz del repositorio:
 
 ```bash
 # Extraer el dataset desde los archivos .itp y .mol2
@@ -112,7 +110,6 @@ python version/TabTransformer.py
 # Validación con moléculas externas al dataset
 python version/validate_external.py
 ```
-
 ---
 
 ## Dataset
@@ -126,9 +123,23 @@ Las features moleculares se calcularon con [RDKit](https://www.rdkit.org/) a par
 
 ---
 
+## Contexto: GROMOS 54A7 y GROMACS
+
+[GROMACS](https://www.gromacs.org/) es uno de los paquetes de dinámica molecular de código abierto más utilizados en bioquímica computacional. El campo de fuerza **GROMOS 54A7** define un vocabulario de ~57 atom types para representar moléculas orgánicas y biomoléculas.
+
+Para simular una nueva molécula en GROMACS es necesario asignarle atom types y cargas parciales compatibles con el campo de fuerza elegido. Este proceso normalmente requiere experiencia experta o herramientas externas. **MolParam busca ser una herramienta complementaria dentro de ese ecosistema**, automatizando la parametrización inicial a partir de datos estructurales de la molécula.
+
+---
+
+## Licencia
+
+Este proyecto está bajo la licencia [MIT](LICENSE) — libre para usar, modificar y distribuir con atribución.
+
+---
+
 ## Contacto
 
 **Magali Arazi** — marazi@itba.edu.ar  
 **Sofía Goldszer** — sgoldszer@itba.edu.ar
 
-*Trabajo de tesis de grado — Ingeniería Biomédica, ITBA, 2025*
+*Trabajo de tesis de grado — Bioingenieria, ITBA, 2025*
