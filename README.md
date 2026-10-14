@@ -1,4 +1,4 @@
-# MolParam — Parametrización Molecular Data-Driven para GROMOS 54A7
+# MolParam — Parametrización Molecular Data-Driven para GROMOS
 
 [![GROMACS](https://img.shields.io/badge/GROMACS-compatible-blue)](https://www.gromacs.org/)
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/)
@@ -7,11 +7,10 @@
 **Tutora:** Dra. Florencia Martini 
 **Co- Tutor** Dr. Rodrigo Ramele  
 **Institución:** ITBA 
----
 
 ## ¿Qué es MolParam?
 
-MolParam es una herramienta de aprendizaje automático para asignar automáticamente **atom types** y **cargas parciales** de moléculas orgánicas pequeñas bajo el campo de fuerza **GROMOS 54A7**, utilizado en simulaciones de dinámica molecular con [GROMACS](https://www.gromacs.org/).
+MolParam es una herramienta de aprendizaje automático para asignar automáticamente **atom types** y **cargas parciales** de moléculas orgánicas pequeñas bajo el campo de fuerza **GROMOS (53A6/54A7)**, utilizado en simulaciones de dinámica molecular con [GROMACS](https://www.gromacs.org/).
 
 La parametrización molecular es un paso necesario (y usualmente manual) antes de correr cualquier simulación MD. MolParam automatiza este proceso a partir de un archivo `.mol2`, generando como salida los parámetros compatibles con el ecosistema GROMACS/GROMOS.
 
@@ -24,8 +23,6 @@ La parametrización molecular es un paso necesario (y usualmente manual) antes d
 | Predicción de cargas parciales | All-Atom (AA) | TabTransformer | 
 | Predicción de cargas parciales | United-Atom (UA) | Random Forest (E3) |
 
----
-
 ## Estructura del repositorio
 
 ```
@@ -37,7 +34,6 @@ Tesis_Entrega/
 └── environment.yml       # Entorno conda (Linux)
 ```
 
----
 ## Instalación
 
 ### Opción A: Solo correr la aplicación web
@@ -53,7 +49,7 @@ cd Tesis_Entrega
 pip install flask rdkit scikit-learn pandas numpy torch
 ```
 
-### Opción B: Reproducir el entrenamiento completo
+### Opción B (Recomendada): Reproducir el entrenamiento completo
 
 Requiere Linux (o WSL en Windows) y [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 
@@ -72,10 +68,7 @@ conda env create -f environment.yml
 # 4. Activar el entorno
 conda activate molparam
 ```
-
 > **Nota:** El `environment.yml` fue generado en Linux. En Windows debe usarse [WSL](https://learn.microsoft.com/es-es/windows/wsl/install).
-
----
 
 ## Uso
 
@@ -110,8 +103,6 @@ python version/TabTransformer.py
 # Validación con moléculas externas al dataset
 python version/validate_external.py
 ```
----
-
 ## Dataset
 
 El dataset de entrenamiento fue construido a partir de **11 moléculas orgánicas** parametrizadas manualmente bajo GROMOS 54A7, extraídas de [ATB (Automated Topology Builder)](https://atb.uq.edu.au/):
@@ -121,25 +112,9 @@ El dataset de entrenamiento fue construido a partir de **11 moléculas orgánica
 
 Las features moleculares se calcularon con [RDKit](https://www.rdkit.org/) a partir de archivos `.mol2`.
 
----
-
-## Contexto: GROMOS 54A7 y GROMACS
-
-[GROMACS](https://www.gromacs.org/) es uno de los paquetes de dinámica molecular de código abierto más utilizados en bioquímica computacional. El campo de fuerza **GROMOS 54A7** define un vocabulario de ~57 atom types para representar moléculas orgánicas y biomoléculas.
-
-Para simular una nueva molécula en GROMACS es necesario asignarle atom types y cargas parciales compatibles con el campo de fuerza elegido. Este proceso normalmente requiere experiencia experta o herramientas externas. **MolParam busca ser una herramienta complementaria dentro de ese ecosistema**, automatizando la parametrización inicial a partir de datos estructurales de la molécula.
-
----
-
-## Licencia
-
-Este proyecto está bajo la licencia [MIT](LICENSE) — libre para usar, modificar y distribuir con atribución.
-
----
-
 ## Contacto
 
 **Magali Arazi** — marazi@itba.edu.ar  
 **Sofía Goldszer** — sgoldszer@itba.edu.ar
 
-*Trabajo de tesis de grado — Bioingenieria, ITBA, 2025*
+*Trabajo de tesis de grado — Bioingenieria, ITBA, 2026*
