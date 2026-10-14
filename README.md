@@ -105,7 +105,7 @@ python version/validate_external.py
 ```
 ## Dataset
 
-El dataset de entrenamiento fue construido a partir de **11 moléculas orgánicas** parametrizadas manualmente bajo GROMOS 54A7, extraídas de [ATB (Automated Topology Builder)](https://atb.uq.edu.au/):
+El dataset de entrenamiento fue construido a partir de **11 moléculas orgánicas** parametrizadas manualmente bajo GROMOS (53A6/54A7), extraídas de [ATB (Automated Topology Builder)](https://atb.uq.edu.au/):
 
 - **All-Atom (AA):** 654 átomos  
 - **United-Atom (UA):** 401 átomos
